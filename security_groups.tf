@@ -20,6 +20,13 @@ resource "aws_security_group" "guestbook_web-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.2.0/24"]
+  }
+
   # 아웃바운드 (나가는 모든 통신 허용)
   egress {
     from_port   = 0
@@ -55,6 +62,13 @@ resource "aws_security_group" "guestbook_was_sg" {
     security_groups = [aws_security_group.guestbook_web-sg.id]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.2.0/24"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -88,6 +102,13 @@ resource "aws_security_group" "guestbook_db_sg" {
     security_groups = [aws_security_group.guestbook_was_sg.id]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.2.0/24"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -97,5 +118,37 @@ resource "aws_security_group" "guestbook_db_sg" {
 
   tags = {
     Name = "guestbook-db-sg"
+  }
+}
+
+resource "aws_security_group" "guestbook_nat_sg" {
+  name        = "guestbook-nat-sg"
+  description = "Allow inbound traffic from private subnets"
+  vpc_id      = aws_vpc.guestbook_vpc.id
+
+  # 프라이빗 서브넷 대역에서 오는 모든 요청을 허용
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.2.0/24"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "guestbook-nat-sg"
   }
 }
