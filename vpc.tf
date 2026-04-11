@@ -65,4 +65,20 @@ resource "aws_route_table_association" "guestbook_public_assoc" {
 # 프라이빗 라우팅 테이블
 resource "aws_route_table" "guestbook_private_rt" {
   vpc_id = aws_vpc.guestbook_vpc.id
+
+  tags = {
+    Name = "guestbook-private-rt"
+  }
+}
+
+resource "aws_route_table_association" "guestbook_private_assoc" {
+  subnet_id      = aws_subnet.guestbook_private_sn.id
+  route_table_id = aws_route_table.guestbook_private_rt.id
+}
+
+# NAT 인스턴스 라우팅 테이블
+resource "aws_route" "private_nat_route" {
+  route_table_id         = aws_route_table.guestbook_private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = aws_instance.guestbook_nat_instance.primary_network_interface_id
 }
