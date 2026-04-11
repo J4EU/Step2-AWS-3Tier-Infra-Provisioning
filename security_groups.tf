@@ -63,7 +63,7 @@ resource "aws_security_group" "guestbook_was_sg" {
   }
 
   tags = {
-    name = "guestbook-was-sg"
+    Name = "guestbook-was-sg"
   }
 }
 
@@ -96,6 +96,6 @@ resource "aws_security_group" "guestbook_db_sg" {
   }
 
   tags = {
-    name = "guestbook-db-sg"
+    Name = "guestbook-db-sg"
   }
 }
