@@ -10,17 +10,30 @@ resource "aws_instance" "guestbook_nat_instance" {
 
   user_data = <<-EOF
     #!/bin/bash
-    echo "net.ipv4.ip_forwawrd = 1" >> /etc/systctl.conf
-    sysctl -p
-    
-    dnf install -y iptables-services
-    systemctl enable --now iptables
+    dnf install iptables-services -y
 
-    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-    service iptables save
+    sysctl -w net.ipv4.ip_forward=1
+    echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+
+    iptables -F
+    iptables -P FORWARD ACCEPT
+
+    IFACE=$(ip route | grep default | awk '{print $5}')
+    iptables -t nat -A POSTROUTING -o $IFACE -j MASQUERADE
     EOF
 
   tags = {
     Name = "guestbook-nat-instance"
+  }
+}
+
+resource "aws_eip" "guestbook_nat_eip" {
+  instance = aws_instance.guestbook_nat_instance.id
+
+  # EIP를 특정 VPC 안에서 사용하기 위해 할당 받겠다라는 선언
+  domain = "vpc"
+
+  tags = {
+    Name = "guestbook-nat-eip"
   }
 }
