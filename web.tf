@@ -32,13 +32,6 @@ resource "aws_instance" "guestbook_web_server" {
         dnf update -y
         dnf install -y nginx
         systemctl enable --now nginx
-
-        # 로컬의 index.html 내용을 서버의 index.html로 저장
-        cat << 'HTML' > /usr/share/nginx/html/index.html
-        ${file("./index.html")}
-        HTML
-
-        chown nginx:nginx /usr/share/nginx/html/index.html
         EOF
 
   tags = {
