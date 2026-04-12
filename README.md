@@ -46,7 +46,6 @@ Internet
 | **Private 아웃바운드** | - | **NAT Instance** |
 | **인프라 관리** | Shell Script | **Terraform (IaC)** |
 
----
 
 ## NAT Instance 비용 최적화
 **NAT Gateway** 시간당 ~$0.059(서울 리전) 고정 비용 - 개인 실습에서 부담되기 때문에 NAT Instance 사용
