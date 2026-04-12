@@ -11,7 +11,7 @@ resource "aws_instance" "guestbook_db_server" {
   user_data = <<-EOF
         #!/bin/bash
         dnf update -y
-        dnf install -y mariadb-server
+        dnf install -y mariadb114-server
         systemctl enable --now mariadb
         EOF
 
