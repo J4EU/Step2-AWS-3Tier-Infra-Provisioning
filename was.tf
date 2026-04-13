@@ -10,7 +10,8 @@ resource "aws_instance" "guestbook_was_server" {
   associate_public_ip_address = false
 
   user_data = <<-EOF
-    dnf install -y python3-pip
+    #!/bin/bash
+    sudo dnf install -y python3-pip
     sudo pip3 install fastapi uvicorn mysql-connector-python pydantic python-dotenv
     EOF
 
