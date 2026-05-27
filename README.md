@@ -1,8 +1,6 @@
-# AWS 3-Tier Guestbook Project (Infrastructure)
-
 > Rocky Linux 3-Tier Guestbook 구조를 AWS EC2 기반 인프라로 재구성해 본 Terraform 프로비저닝 실습
 
-원본 프로젝트: [Rocky-3Tier-Guestbook-Project](https://github.com/J4EU/Rocky-3Tier-Guestbook-Project)
+원본 프로젝트: [Step1-Local-VM-3Tier-Guestbook](https://github.com/J4EU/Step1-Local-VM-3Tier-Guestbook)
 
 ## 프로젝트 범위
 
